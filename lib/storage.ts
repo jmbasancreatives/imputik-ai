@@ -3,6 +3,8 @@ export const STORAGE_KEY = "imputik-ai-v1"
 export type AppState = {
   completed: number[]
   quizAnswers: Record<number, number>
+  videoAssessmentAnswers: Record<number, number>
+  videoAssessmentScores: Record<number, number>
   lastActive: string
   streak: number
   provider: { apiKey: string; baseURL: string; model: string }
@@ -12,6 +14,8 @@ export type AppState = {
 export const defaultState: AppState = {
   completed: [],
   quizAnswers: {},
+  videoAssessmentAnswers: {},
+  videoAssessmentScores: {},
   lastActive: "",
   streak: 1,
   provider: { apiKey: "", baseURL: "https://api.openai.com/v1", model: "gpt-4o-mini" },
