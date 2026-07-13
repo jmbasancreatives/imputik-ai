@@ -2,7 +2,6 @@
 
 import Image from "next/image"
 import { useEffect, useMemo, useRef, useState } from "react"
-import { signOut, useSession } from "next-auth/react"
 import { ArrowLeft, ArrowRight, BookOpen, Bot, Check, ChevronRight, CircleUserRound, Dumbbell, Flame, Home, KeyRound, LockKeyhole, Menu, MessageCircle, Play, RotateCcw, Send, Settings, Sparkles, Target, Trophy, WifiOff, X } from "lucide-react"
 import { curriculum, trackNames, type Lesson } from "@/lib/curriculum"
 import { defaultState, loadState, saveState, STORAGE_KEY, type AppState } from "@/lib/storage"
@@ -16,7 +15,6 @@ const nav = [
 ] as const
 
 export function ImputikApp() {
-  const { data: session } = useSession()
   const [tab, setTab] = useState<Tab>("home")
   const [state, setState] = useState<AppState>(defaultState)
   const [ready, setReady] = useState(false)
