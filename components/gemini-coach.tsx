@@ -2,7 +2,8 @@
 
 import Image from "next/image"
 import { useRef, useState } from "react"
-import { Bot, RotateCcw, Send, Sparkles, User } from "lucide-react"
+import { Bot, RotateCcw, Send, Sparkles, User, LogOut } from "lucide-react"
+import { signOut } from "next-auth/react"
 import type { AppState } from "@/lib/storage"
 
 export function GeminiCoach({ state, update }: { state: AppState; update: (patch: Partial<AppState>) => void }) {
@@ -40,5 +41,11 @@ export function GeminiCoach({ state, update }: { state: AppState; update: (patch
 }
 
 export function GeminiSettings({ clear }: { clear: () => void }) {
-  return <section className="flex flex-col gap-5"><div><span className="eyebrow">Settings</span><h2 className="mt-2 text-3xl font-black">Your app, your data</h2></div><div className="settings-card"><div className="icon-tile"><Sparkles size={22}/></div><div className="flex-1"><h3 className="font-extrabold">Gemini coaching</h3><p className="mt-1 text-sm leading-relaxed text-muted-foreground">Your friendly AI coach is configured and ready. Messages and learning progress remain on this device.</p></div><span className="status-dot">Active</span></div><div className="settings-card"><div><h3 className="font-extrabold">Reset local data</h3><p className="mt-1 text-sm text-muted-foreground">Remove progress, practice results, and coaching messages.</p></div><button onClick={clear} className="danger-action">Clear data</button></div></section>
+  const handleLogout = async () => {
+    if (window.confirm("Sign out of your account?")) {
+      await signOut({ redirectTo: "/" })
+    }
+  }
+  
+  return <section className="flex flex-col gap-5"><div><span className="eyebrow">Settings</span><h2 className="mt-2 text-3xl font-black">Your app, your data</h2></div><div className="settings-card"><div className="icon-tile"><Sparkles size={22}/></div><div className="flex-1"><h3 className="font-extrabold">Gemini coaching</h3><p className="mt-1 text-sm leading-relaxed text-muted-foreground">Your friendly AI coach is configured and ready. Messages and learning progress remain on this device.</p></div><span className="status-dot">Active</span></div><div className="settings-card"><div><h3 className="font-extrabold">Reset local data</h3><p className="mt-1 text-sm text-muted-foreground">Remove progress, practice results, and coaching messages.</p></div><button onClick={clear} className="danger-action">Clear data</button></div><div className="settings-card border-destructive/20"><div className="flex-1"><h3 className="font-extrabold">Account</h3><p className="mt-1 text-sm text-muted-foreground">Sign out of your account and return to the home page.</p></div><button onClick={handleLogout} className="flex items-center gap-2 text-destructive hover:text-destructive/80"><LogOut size={16} /> Sign out</button></div></section>
 }
