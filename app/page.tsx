@@ -1,5 +1,5 @@
-import { ImputikApp } from "@/components/imputik-app"
+import { LandingPage } from "@/components/landing-page"
 
 export default function Page() {
-  return <ImputikApp />
+  return <LandingPage />
 }

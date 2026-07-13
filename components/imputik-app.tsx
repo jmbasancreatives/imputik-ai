@@ -1,15 +1,17 @@
 "use client"
 
+import Image from "next/image"
 import { useEffect, useMemo, useRef, useState } from "react"
-import { ArrowLeft, ArrowRight, BookOpen, Bot, Check, ChevronRight, CircleUserRound, Flame, Home, KeyRound, LockKeyhole, Menu, MessageCircle, Play, RotateCcw, Send, Settings, Sparkles, Target, Trophy, WifiOff, X } from "lucide-react"
+import { ArrowLeft, ArrowRight, BookOpen, Bot, Check, ChevronRight, CircleUserRound, Dumbbell, Flame, Home, KeyRound, LockKeyhole, Menu, MessageCircle, Play, RotateCcw, Send, Settings, Sparkles, Target, Trophy, WifiOff, X } from "lucide-react"
 import { curriculum, trackNames, type Lesson } from "@/lib/curriculum"
 import { defaultState, loadState, saveState, STORAGE_KEY, type AppState } from "@/lib/storage"
 import { GeminiCoach, GeminiSettings } from "@/components/gemini-coach"
+import { PracticeLab } from "@/components/practice-lab"
 
-type Tab = "home" | "learn" | "coach" | "progress" | "settings"
+type Tab = "home" | "learn" | "practice" | "coach" | "progress" | "settings"
 
 const nav = [
-  ["home", "Home", Home], ["learn", "Learn", BookOpen], ["coach", "Coach", Bot], ["progress", "Progress", Trophy], ["settings", "Settings", Settings],
+  ["home", "Home", Home], ["learn", "Learn", BookOpen], ["practice", "Practice", Dumbbell], ["coach", "Coach", Bot], ["progress", "Progress", Trophy], ["settings", "Settings", Settings],
 ] as const
 
 export function ImputikApp() {
@@ -61,6 +63,7 @@ export function ImputikApp() {
               <>
                 {tab === "home" && <HomeView state={state} current={currentLesson} percent={percent} openLesson={setSelected} go={setTab} />}
                 {tab === "learn" && <LearnView state={state} openLesson={setSelected} />}
+                {tab === "practice" && <PracticeLab />}
                 {tab === "coach" && <GeminiCoach state={state} update={update} />}
                 {tab === "progress" && <ProgressView state={state} percent={percent} />}
                 {tab === "settings" && <GeminiSettings clear={() => { if (window.confirm("Clear all IMPUTIK AI progress and chat from this device?")) { localStorage.removeItem(STORAGE_KEY); window.location.reload() } }} />}
@@ -71,7 +74,7 @@ export function ImputikApp() {
       </div>
 
       <nav className="fixed inset-x-0 bottom-0 z-40 flex h-20 items-center justify-around border-t border-border bg-card px-2 lg:hidden" aria-label="Mobile navigation">
-        {nav.map(([id, label, Icon]) => <button key={id} onClick={() => { setTab(id); setSelected(null) }} className={`flex min-w-14 flex-col items-center gap-1 rounded-xl p-2 text-[11px] font-bold ${tab === id ? "text-primary" : "text-muted-foreground"}`}><Icon className={`size-5 ${tab === id ? "fill-accent" : ""}`} />{label}</button>)}
+        {nav.map(([id, label, Icon]) => <button key={id} onClick={() => { setTab(id); setSelected(null) }} className={`flex min-w-0 flex-1 flex-col items-center gap-1 rounded-xl px-1 py-2 text-[10px] font-bold ${tab === id ? "text-accent" : "text-muted-foreground"}`}><Icon className={`size-5 ${tab === id ? "fill-accent" : ""}`} />{label}</button>)}
       </nav>
 
       {menuOpen && <div className="fixed inset-0 z-50 bg-primary p-6 text-primary-foreground lg:hidden"><div className="flex items-center justify-between"><Brand inverted /><button onClick={() => setMenuOpen(false)} className="grid size-11 place-items-center rounded-full border border-primary-foreground/20"><X /></button></div><nav className="mt-14 flex flex-col">{nav.map(([id, label, Icon], i) => <button key={id} onClick={() => { setTab(id); setSelected(null); setMenuOpen(false) }} className="flex items-center justify-between border-b border-primary-foreground/15 py-5 text-left text-2xl font-semibold"><span className="flex items-center gap-4"><span className="text-sm text-accent">0{i + 1}</span>{label}</span><Icon className="size-5" /></button>)}</nav></div>}
@@ -80,7 +83,7 @@ export function ImputikApp() {
 }
 
 function Brand({ compact = false, inverted = false }: { compact?: boolean; inverted?: boolean }) {
-  return <div className={`flex items-center gap-3 ${inverted ? "text-primary-foreground" : "text-primary"}`}><span className={`grid size-10 place-items-center rounded-xl font-black ${inverted ? "bg-accent text-accent-foreground" : "bg-primary text-primary-foreground"}`}>i</span>{!compact && <span><span className="block text-lg font-black tracking-tight">IMPUTIK AI</span><span className="block text-[9px] font-bold uppercase tracking-[0.24em] opacity-60">Build your next</span></span>}</div>
+  return <div className={`flex items-center gap-3 ${inverted ? "text-primary-foreground" : "text-foreground"}`}><Image src="/imputik-logo.png" alt="IMPUTIK AI" width={44} height={44} className="size-11 rounded-xl object-cover" />{!compact && <span><span className="block text-lg font-black tracking-tight">IMPUTIK <span className="text-accent">AI</span></span><span className="block text-[9px] font-bold uppercase tracking-[0.24em] opacity-60">Virtual assistant hub</span></span>}</div>
 }
 
 function NavButton({ active, label, icon: Icon, onClick }: { active: boolean; label: string; icon: typeof Home; onClick: () => void }) {
@@ -94,7 +97,7 @@ function HomeView({ state, current, percent, openLesson, go }: { state: AppState
       <button onClick={() => openLesson(current)} className="group flex min-h-64 flex-col justify-between rounded-3xl bg-primary p-6 text-left text-primary-foreground md:p-8"><div className="flex items-center justify-between"><span className="rounded-full bg-accent px-3 py-1 text-xs font-black uppercase tracking-wider text-accent-foreground">Continue learning</span><span className="text-sm text-primary-foreground/60">{current.duration}</span></div><div><p className="text-sm text-primary-foreground/60">Lesson {current.id} · {current.track}</p><h2 className="mt-2 max-w-md text-balance text-3xl font-bold">{current.title}</h2><div className="mt-6 flex items-center gap-2 font-bold text-accent">Start lesson <ArrowRight className="size-5 transition-transform group-hover:translate-x-1" /></div></div></button>
       <div className="flex flex-col justify-between rounded-3xl border border-border bg-card p-6"><div className="flex items-center justify-between"><Target className="size-6 text-highlight" /><span className="font-mono text-sm">{percent}%</span></div><div><div className="relative mx-auto my-5 grid size-28 place-items-center rounded-full border-[10px] border-secondary"><span className="text-2xl font-black">{state.completed.length}<small className="text-sm text-muted-foreground">/20</small></span></div><p className="text-center text-sm text-muted-foreground">Lessons completed</p></div><button onClick={() => go("progress")} className="mt-3 flex items-center justify-center gap-2 rounded-xl bg-secondary py-3 text-sm font-bold">See progress <ChevronRight className="size-4" /></button></div>
     </section>
-    <section><div className="flex items-end justify-between"><div><p className="eyebrow">Today&apos;s action</p><h2 className="mt-2 text-2xl font-bold">Make one move forward</h2></div></div><div className="mt-4 grid gap-3 sm:grid-cols-3">{[["Practice", "Draft a 3-line client update", MessageCircle], ["Ask", "Review my VA service offer", Bot], ["Plan", "Create this week's focus", Target]].map(([tag, text, Icon]) => <button key={tag as string} onClick={() => go(tag === "Ask" ? "coach" : "learn")} className="flex min-h-32 flex-col items-start justify-between rounded-2xl border border-border bg-card p-5 text-left hover:border-primary"><Icon className="size-5 text-primary" /><span><small className="font-mono uppercase text-muted-foreground">{tag as string}</small><strong className="mt-1 block text-pretty">{text as string}</strong></span></button>)}</div></section>
+    <section><div className="flex items-end justify-between"><div><p className="eyebrow">Today&apos;s action</p><h2 className="mt-2 text-2xl font-bold">Make one move forward</h2></div></div><div className="mt-4 grid gap-3 sm:grid-cols-3">{[["Practice", "Draft a 3-line client update", MessageCircle], ["Ask", "Review my VA service offer", Bot], ["Plan", "Create this week's focus", Target]].map(([tag, text, Icon]) => <button key={tag as string} onClick={() => go(tag === "Ask" ? "coach" : tag === "Practice" ? "practice" : "learn")} className="flex min-h-32 flex-col items-start justify-between rounded-2xl border border-border bg-card p-5 text-left hover:border-primary"><Icon className="size-5 text-primary" /><span><small className="font-mono uppercase text-muted-foreground">{tag as string}</small><strong className="mt-1 block text-pretty">{text as string}</strong></span></button>)}</div></section>
   </div>
 }
 

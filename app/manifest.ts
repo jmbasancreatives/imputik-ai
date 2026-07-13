@@ -5,10 +5,10 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "IMPUTIK AI — VA Career Coach",
     short_name: "IMPUTIK AI",
     description: "A free, open-source AI career coach for aspiring virtual assistants.",
-    start_url: "/",
+    start_url: "/app",
     display: "standalone",
-    background_color: "#f4f1e8",
-    theme_color: "#123f3a",
+    background_color: "#030817",
+    theme_color: "#030817",
     orientation: "portrait",
     icons: [
       { src: "/icon-192.png", sizes: "192x192", type: "image/png" },

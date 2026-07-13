@@ -1,5 +1,5 @@
-const CACHE = "imputik-shell-v1"
-const ASSETS = ["/", "/manifest.webmanifest", "/icon-192.png", "/icon-512.png"]
+const CACHE = "imputik-shell-v2"
+const ASSETS = ["/", "/app", "/manifest.webmanifest", "/icon-192.png", "/icon-512.png", "/imputik-logo.png"]
 self.addEventListener("install", (event) => event.waitUntil(caches.open(CACHE).then((cache) => cache.addAll(ASSETS))))
 self.addEventListener("activate", (event) => event.waitUntil(self.clients.claim()))
 self.addEventListener("fetch", (event) => {

@@ -7,7 +7,7 @@ const mono = Space_Mono({ subsets: ["latin"], weight: ["400", "700"], variable: 
 
 export const metadata: Metadata = {
   title: "IMPUTIK AI — Free VA Career Coach",
-  description: "A free, open-source, 20-day virtual assistant career program with private BYOK AI coaching.",
+  description: "Hands-on virtual assistant training with guided demos, realistic assessments, and a friendly AI coach.",
   applicationName: "IMPUTIK AI",
   generator: "v0.app",
   manifest: "/manifest.webmanifest",
@@ -16,8 +16,8 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: "#123f3a",
-  colorScheme: "light",
+  themeColor: "#030817",
+  colorScheme: "dark",
   width: "device-width",
   initialScale: 1,
   userScalable: true,
