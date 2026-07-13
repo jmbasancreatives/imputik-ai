@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react"
 import { ArrowLeft, ArrowRight, BookOpen, Bot, Check, ChevronRight, CircleUserRound, Flame, Home, KeyRound, LockKeyhole, Menu, MessageCircle, Play, RotateCcw, Send, Settings, Sparkles, Target, Trophy, WifiOff, X } from "lucide-react"
 import { curriculum, trackNames, type Lesson } from "@/lib/curriculum"
 import { defaultState, loadState, saveState, STORAGE_KEY, type AppState } from "@/lib/storage"
+import { GeminiCoach, GeminiSettings } from "@/components/gemini-coach"
 
 type Tab = "home" | "learn" | "coach" | "progress" | "settings"
 
@@ -60,9 +61,9 @@ export function ImputikApp() {
               <>
                 {tab === "home" && <HomeView state={state} current={currentLesson} percent={percent} openLesson={setSelected} go={setTab} />}
                 {tab === "learn" && <LearnView state={state} openLesson={setSelected} />}
-                {tab === "coach" && <CoachView state={state} update={update} goSettings={() => setTab("settings")} />}
+                {tab === "coach" && <GeminiCoach state={state} update={update} />}
                 {tab === "progress" && <ProgressView state={state} percent={percent} />}
-                {tab === "settings" && <SettingsView state={state} update={update} />}
+                {tab === "settings" && <GeminiSettings clear={() => { if (window.confirm("Clear all IMPUTIK AI progress and chat from this device?")) { localStorage.removeItem(STORAGE_KEY); window.location.reload() } }} />}
               </>
             )}
           </div>
