@@ -62,7 +62,7 @@ const videoAssessments = [
   { question: "Good outreach starts with…", options: ["Generic info", "Relevant observation", "Discount offer"], answer: 1 },
   { question: "Discovery helps you…", options: ["Show all skills", "Understand goals and constraints", "Fill time"], answer: 1 },
   { question: "A launch plan should be…", options: ["Specific and scheduled", "Perfect before starting", "Just ideas"], answer: 0 },
-] as const
+]
 
 const videoUrls = [
   "https://www.youtube.com/embed/dQw4w9WgXcQ", // What is a VA? - Introduction
