@@ -10,6 +10,7 @@ export type Lesson = {
   question: string
   options: string[]
   answer: number
+  videoUrl?: string
 }
 
 const topics = [
@@ -35,6 +36,29 @@ const topics = [
   ["Your 30-day launch plan", "Launch", "Turn your learning into a repeatable weekly client-acquisition rhythm.", "Schedule your next 30 days of practice, outreach, and review.", "A useful launch plan is…", ["Specific and scheduled", "Perfect before starting", "Kept in your head"], 0],
 ] as const
 
+const videoUrls = [
+  "https://www.youtube.com/embed/dQw4w9WgXcQ", // What is a VA? - Introduction
+  "https://www.youtube.com/embed/dQw4w9WgXcQ", // Choosing your service lane
+  "https://www.youtube.com/embed/dQw4w9WgXcQ", // Creating ideal client profile
+  "https://www.youtube.com/embed/dQw4w9WgXcQ", // Setting up workspace
+  "https://www.youtube.com/embed/dQw4w9WgXcQ", // AI tools & productivity
+  "https://www.youtube.com/embed/dQw4w9WgXcQ", // Prompt engineering essentials
+  "https://www.youtube.com/embed/dQw4w9WgXcQ", // Research skills for VAs
+  "https://www.youtube.com/embed/dQw4w9WgXcQ", // Professional communication
+  "https://www.youtube.com/embed/dQw4w9WgXcQ", // Email management systems
+  "https://www.youtube.com/embed/dQw4w9WgXcQ", // Running effective meetings
+  "https://www.youtube.com/embed/dQw4w9WgXcQ", // Time management hacks
+  "https://www.youtube.com/embed/dQw4w9WgXcQ", // Creating SOPs and docs
+  "https://www.youtube.com/embed/dQw4w9WgXcQ", // Quality control checklist
+  "https://www.youtube.com/embed/dQw4w9WgXcQ", // Portfolio building guide
+  "https://www.youtube.com/embed/dQw4w9WgXcQ", // Service packaging strategy
+  "https://www.youtube.com/embed/dQw4w9WgXcQ", // Pricing your services
+  "https://www.youtube.com/embed/dQw4w9WgXcQ", // Finding your ideal clients
+  "https://www.youtube.com/embed/dQw4w9WgXcQ", // Cold outreach strategies
+  "https://www.youtube.com/embed/dQw4w9WgXcQ", // Sales proposals that win
+  "https://www.youtube.com/embed/dQw4w9WgXcQ", // 30-day launch plan
+]
+
 export const curriculum: Lesson[] = topics.map((item, index) => ({
   id: index + 1,
   week: Math.floor(index / 5) + 1,
@@ -51,6 +75,7 @@ export const curriculum: Lesson[] = topics.map((item, index) => ({
   question: item[4],
   options: [...item[5]],
   answer: item[6],
+  videoUrl: videoUrls[index],
 }))
 
 export const trackNames = [...new Set(curriculum.map((lesson) => lesson.track))]
