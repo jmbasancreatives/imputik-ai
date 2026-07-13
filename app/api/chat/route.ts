@@ -17,7 +17,7 @@ export async function POST(request: Request) {
       return new Response("Add a message to continue.", { status: 400 })
     }
 
-    const result = streamText({ model: google("gemini-3.5-flash"), system, messages })
+    const result = streamText({ model: google("gemini-2.0-flash"), system, messages })
     return result.toTextStreamResponse()
   } catch {
     return new Response("Gemini could not complete this request. Please try again.", { status: 500 })
